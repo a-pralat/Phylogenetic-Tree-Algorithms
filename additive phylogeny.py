@@ -104,7 +104,7 @@ def weighted_adjacency_list(filename: str, graph: nx.Graph) -> None:
 
 
 def save_result(graph: nx.Graph, path: str) -> None:
-    position = nx.spring_layout(graph, seed=8)
+    position = nx.spring_layout(graph, seed=11)
     nx.draw_networkx_nodes(graph, position, node_size=700)
     nx.draw_networkx_edges(graph, position, width=6)
     labels = nx.get_edge_attributes(graph, 'weight')
@@ -121,7 +121,7 @@ def save_result(graph: nx.Graph, path: str) -> None:
 
 if __name__ == "__main__":
     input_dir, output_dir = 'examples/input/', 'examples/output/'
-    files = ['n4_1.txt', 'n4_2.txt', 'n5_1.txt']
+    files = ['n4_1.txt', 'n4_2.txt', 'n5_1.txt', 'n10_1.txt']
 
     for f in files:
         input_path = input_dir + f
