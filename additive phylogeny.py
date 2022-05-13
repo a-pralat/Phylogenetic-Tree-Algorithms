@@ -121,7 +121,7 @@ def save_result(graph: nx.Graph, path: str) -> None:
 
 if __name__ == "__main__":
     input_dir, output_dir = 'examples/input/', 'examples/output/'
-    files = ['n4_1.txt', 'n4_2.txt', 'n5_1.txt', 'n10_1.txt']
+    files = ['n4_1.txt', 'n4_2.txt', 'n5_1.txt', 'n8_1.txt', 'n10_1.txt']
 
     for f in files:
         input_path = input_dir + f
