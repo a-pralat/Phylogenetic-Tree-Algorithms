@@ -1,6 +1,4 @@
-import matplotlib.pyplot as plt
-import networkx as nx
-import numpy as np
+from utils import *
 
 
 def limb_length(matrix: np.array, j: int) -> float:
@@ -11,7 +9,7 @@ def limb_length(matrix: np.array, j: int) -> float:
             return min(limb, min(matrix[mask, j] + matrix[j, k] - matrix[mask, k])) / 2
 
 
-def find_attachment_point(matrix: np.array, j: int) -> tuple[int, int]:
+def find_attachment_point(matrix: np.array, j: int) -> Tuple[int, int]:
     # i_out, k_out = 0, 0
     mask = [i for i in range(np.size(matrix, 0)) if i != j]
     for u in range(len(mask) - 1):
@@ -81,48 +79,9 @@ def additive_phylogeny(matrix: np.array, n: int, inner_n: int) -> nx.Graph:
     return result
 
 
-def read_file(path: str) -> np.array:
-    return np.loadtxt(path, dtype=int)
-
-
-def check_filename(filename: str) -> str:
-    index = filename.rfind('.')
-    if index == -1 or not filename.endswith('.txt'):
-        print('Not proper name of file')
-        exit(0)
-
-    return filename[:index]
-
-
-def weighted_adjacency_list(filename: str, graph: nx.Graph) -> None:
-    adjacency_dict, output_list = nx.to_dict_of_lists(graph), []
-    for k, value in adjacency_dict.items():
-        for val in value:
-            output_list.append(str(k) + '->' + str(val) + ':' + str(int(graph[k][val]['weight'])))
-
-    return print(f'{filename}\n{sorted(output_list)}')
-
-
-def save_result(graph: nx.Graph, path: str) -> None:
-    position = nx.spring_layout(graph, seed=11)
-    nx.draw_networkx_nodes(graph, position, node_size=200)
-    nx.draw_networkx_edges(graph, position, width=2)
-    labels = nx.get_edge_attributes(graph, 'weight')
-    nx.draw_networkx_edge_labels(graph, position, edge_labels=labels)
-    nx.draw_networkx_labels(graph, position, font_size=10, font_family="sans-serif")
-
-    ax = plt.gca()
-    ax.margins(0.08)
-    plt.axis("off")
-    plt.tight_layout()
-    plt.savefig(path, format='png')
-    plt.close()
-
-
 if __name__ == "__main__":
     input_dir, output_dir = 'examples/input/', 'examples/output/'
-    files = ['n4_1.txt', 'n4_2.txt', 'n5_1.txt', 'n8_1.txt', 'n10_1.txt', 'n10_2.txt',
-             'n10_3.txt']
+    files = ['n4_1.txt', 'n4_2.txt', 'n5_1.txt', 'n8_1.txt', 'n9_1_additive.txt']
 
     for f in files:
         input_path = input_dir + f
@@ -133,4 +92,4 @@ if __name__ == "__main__":
 
         output = additive_phylogeny(D, size, size)
         weighted_adjacency_list(file, output)
-        save_result(output, f'{output_dir}{file}.png')
+        save_result(output, f'{output_dir}additive phylogeny/{file}.png')
