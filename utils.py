@@ -1,3 +1,4 @@
+from networkx.drawing.nx_pydot import graphviz_layout
 from typing import Tuple, List
 import matplotlib.pyplot as plt
 import networkx as nx
@@ -6,7 +7,13 @@ import string
 
 
 def read_file(path: str) -> np.array:
-    matrix = np.loadtxt(path, dtype=int)
+    with open(path, 'r') as file:
+        content = [[float(x) for x in line.split()] for line in file]
+
+    matrix = np.zeros((len(content), len(content)), dtype=float)
+    for i in range(len(content)):
+        for j in range(len(content[i])):
+            matrix[i][j], matrix[j][i] = content[i][j], content[i][j]
     return matrix
 
 
@@ -28,8 +35,8 @@ def weighted_adjacency_list(filename: str, graph: nx.Graph) -> None:
     return print(f'{filename}\n{sorted(output_list)}')
 
 
-def save_result(graph: nx.Graph, path: str) -> None:
-    position = nx.spring_layout(graph, seed=11)
+def save_result(graph: nx.Graph, path: str, mode: str = 'graph') -> None:
+    position = nx.spring_layout(graph, seed=1) if mode == 'graph' else graphviz_layout(graph, prog="twopi")
     labels = nx.get_edge_attributes(graph, 'weight')
 
     plt.figure()
