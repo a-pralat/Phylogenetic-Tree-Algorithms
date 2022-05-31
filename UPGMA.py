@@ -71,8 +71,8 @@ class UPGMA:
         for key1, value1 in result.items():
             for key2, value2 in result.items():
                 if key1 != key2 and key1 + key2 in result.keys():
-                    graph.add_edge(key1, key1 + key2, weight=result[key1 + key2] - result[key1])
-                    graph.add_edge(key2, key1 + key2, weight=result[key1 + key2] - result[key2])
+                    graph.add_edge(key1, key1 + key2, weight=round(result[key1 + key2] - result[key1], 2))
+                    graph.add_edge(key2, key1 + key2, weight=round(result[key1 + key2] - result[key2], 2))
 
         return graph
 

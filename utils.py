@@ -36,18 +36,19 @@ def weighted_adjacency_list(filename: str, graph: nx.Graph) -> None:
 
 
 def save_result(graph: nx.Graph, path: str, mode: str = 'graph') -> None:
-    position = nx.spring_layout(graph, seed=1) if mode == 'graph' else graphviz_layout(graph, prog="twopi")
+    position = nx.spring_layout(graph, seed=11) if mode == 'graph' else graphviz_layout(graph, prog="twopi")
     labels = nx.get_edge_attributes(graph, 'weight')
 
     plt.figure()
     nx.draw(
         graph, position, edge_color='black', width=1, linewidths=1,
-        node_size=500, node_color='pink', alpha=0.9,
+        node_size=300, node_color='pink', alpha=0.9,
         labels={node: node for node in graph.nodes()}
     )
     nx.draw_networkx_edge_labels(
         graph, position,
         edge_labels=labels,
+        font_size=8,
         font_color='green'
     )
 

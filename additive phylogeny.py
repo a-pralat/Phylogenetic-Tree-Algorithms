@@ -3,7 +3,7 @@ from utils import *
 
 class AdditivePhylogeny:
     def __init__(self):
-        self.new_nodes_start_index = 30
+        self.new_nodes_start_index = 50
 
     @staticmethod
     def compute_limb_length(d_ik: float, d_ij: float, d_jk: float) -> float:
@@ -101,4 +101,7 @@ if __name__ == "__main__":
 
         # show output
         weighted_adjacency_list(file, output)
+
+        # choose visualization
         save_result(output, f'{output_dir}additive phylogeny/graph_{file}.png')
+        save_result(output, f'{output_dir}additive phylogeny/tree_{file}.png', 'tree')
