@@ -120,3 +120,6 @@ if __name__ == "__main__":
         # choose visualization
         save_result(output, f'{output_dir}UPGMA/graph_{file}.png')
         save_result(output, f'{output_dir}UPGMA/tree_{file}.png', 'tree')
+
+# Sources:
+# https://www.youtube.com/watch?v=27aOeJ2hSwA

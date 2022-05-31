@@ -52,6 +52,7 @@ class AdditivePhylogeny:
 
         # 1. Pick an arbitrary leaf j (we choose THE LAST ONE)
         j = size - 1
+
         # 2. Compute its limb length, limb_length(matrix, j)
         limb = self.compute_min_limb_length(matrix, j)
 
@@ -105,3 +106,7 @@ if __name__ == "__main__":
         # choose visualization
         save_result(output, f'{output_dir}additive phylogeny/graph_{file}.png')
         save_result(output, f'{output_dir}additive phylogeny/tree_{file}.png', 'tree')
+
+# Sources:
+# https://www.youtube.com/watch?v=HjDz2ak5BUk
+# https://github.com/YamenHabib/Algorithms-in-bioinformatics-Fall-2021/tree/main/Implement%20AdditivePhylogeny

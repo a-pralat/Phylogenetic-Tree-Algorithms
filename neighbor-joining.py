@@ -102,3 +102,6 @@ if __name__ == "__main__":
 
     for k, v in newick.items():
         print(k, v)
+
+# Sources:
+# https://www.youtube.com/watch?v=Y0QWFFWQzds
