@@ -3,14 +3,14 @@ from utils import *
 
 class AdditivePhylogeny:
     def __init__(self):
-        self.new_nodes_start_index = 50
+        self.new_nodes_start_index: int = 50
 
     @staticmethod
     def compute_limb_length(d_ik: float, d_ij: float, d_jk: float) -> float:
         return (d_ik + d_ij - d_jk) / 2
 
     @staticmethod
-    def create_mask(matrix: np.array) -> Tuple[np.array, int]:
+    def get_current_distances(matrix: np.array) -> Tuple[np.array, int]:
         mask, mask_size = [], np.size(matrix, 0)
 
         # takes half of the matrix
@@ -22,10 +22,10 @@ class AdditivePhylogeny:
 
     def compute_min_limb_length(self, matrix: np.array, j: int) -> float:
         min_limb = np.inf
-        mask, mask_size = self.create_mask(matrix)
+        mask, mask_size = self.get_current_distances(matrix)
 
         for i in range(mask_size):
-            x, y, value = int(mask[i, 0]), int(mask[i, 1]), int(mask[i, 2])
+            x, y, value = int(mask[i, 0]), int(mask[i, 1]), float(mask[i, 2])
 
             limb = self.compute_limb_length(matrix[x, j], matrix[y, j], value)
             if x != j and y != j and min_limb > limb:
@@ -34,10 +34,10 @@ class AdditivePhylogeny:
         return min_limb
 
     def find_attachment_point(self, matrix: np.array, j: int) -> Tuple[int, int]:
-        mask, mask_size = self.create_mask(matrix)
+        mask, mask_size = self.get_current_distances(matrix)
 
         for i in range(mask_size):
-            x, y, value = int(mask[i, 0]), int(mask[i, 1]), int(mask[i, 2])
+            x, y, value = int(mask[i, 0]), int(mask[i, 1]), float(mask[i, 2])
 
             limb = self.compute_limb_length(matrix[x, j], matrix[y, j], value)
             if x != j and y != j and limb == 0:
@@ -92,7 +92,7 @@ class AdditivePhylogeny:
 if __name__ == "__main__":
     # files configuration
     input_dir, output_dir = 'examples/input/', 'examples/output/'
-    files = ['n4_1.txt', 'n4_2.txt', 'n5_1.txt', 'n8_1.txt', 'n9_1_additive.txt']
+    files = ['n4_1.txt', 'n5_1.txt', 'n5_2.txt', 'n5_3.txt', 'n6_1.txt', 'n8_1.txt', 'n9_1_additive.txt']
     for f in files:
         input_path, file = input_dir + f, check_filename(f)
 

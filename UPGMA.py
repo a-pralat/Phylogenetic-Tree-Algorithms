@@ -105,7 +105,7 @@ class UPGMA:
 if __name__ == "__main__":
     # files configuration
     input_dir, output_dir = 'examples/input/', 'examples/output/'
-    files = ['n4_1.txt', 'n4_2.txt', 'n5_1.txt', 'n8_1.txt', 'n9_1_additive.txt', 'n9_2_nonadditive.txt']
+    files = ['n4_1.txt', 'n5_1.txt', 'n5_2.txt', 'n5_3.txt', 'n6_1.txt', 'n8_1.txt', 'n9_1_additive.txt', 'n9_2_nonadditive.txt']
 
     for f in files:
         input_path, file = input_dir + f, check_filename(f)
