@@ -13,7 +13,7 @@ def read_file(path: str) -> np.array:
     matrix = np.zeros((len(content), len(content)), dtype=float)
     for i in range(len(content)):
         for j in range(len(content[i])):
-            matrix[i][j], matrix[j][i] = content[i][j], content[i][j]
+            matrix[i][j], matrix[j][i] = [content[i][j]] * 2
     return matrix
 
 
@@ -30,9 +30,9 @@ def weighted_adjacency_list(filename: str, graph: nx.Graph) -> None:
     adjacency_dict, output_list = nx.to_dict_of_lists(graph), []
     for k, value in adjacency_dict.items():
         for val in value:
-            output_list.append(str(k) + '->' + str(val) + ':' + str(int(graph[k][val]['weight'])))
+            output_list.append(str(k) + '->' + str(val) + ':' + str(graph[k][val]['weight']))
 
-    return print(f'{filename}\n{sorted(output_list)}')
+    print(f'{filename}\n{sorted(output_list)}')
 
 
 def save_result(graph: nx.Graph, path: str, mode: str = 'graph') -> None:

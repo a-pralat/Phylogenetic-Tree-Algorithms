@@ -29,7 +29,7 @@ class NeighborJoining:
 
         return indexes
 
-    def update_matrix(self, i, j):
+    def update_matrix(self, i: int, j: int) -> List[int]:
         remaining_idx = [k for k in range(self.size) if k not in {i, j}]
         new_matrix = np.zeros((self.size - 1, self.size - 1))
         new_matrix[:-1, :-1] = self.matrix[np.ix_(remaining_idx, remaining_idx)]
@@ -37,12 +37,33 @@ class NeighborJoining:
         self.matrix, self.size = new_matrix, self.size - 1
         return remaining_idx
 
+    @staticmethod
+    def check_if_leaf(value: str) -> bool:
+        for letter in value:
+            if letter not in string.digits:
+                return True
+        return False
 
-    def neighbor_joining(self):
+    @staticmethod
+    def add_edges_to_result(graph: nx.Graph, first: str, second: str, first_val: float, second_val: float) -> None:
+        graph.add_edge(first + second, first, weight=round(first_val, 2))
+        graph.add_edge(first + second, second, weight=round(second_val, 2))
+
+    def build_tree(self, result: dict) -> nx.Graph:
+        graph, merged = nx.Graph(), dict()
+
+        for key, val in result.items():
+            first = val[0][0] if self.check_if_leaf(val[0][0]) else merged.get(val[0][0])
+            second = val[1][0] if self.check_if_leaf(val[1][0]) else merged.get(val[1][0])
+            self.add_edges_to_result(graph, first, second, val[0][1], val[1][1])
+            merged[key] = first + second
+
+        return graph
+
+    def neighbor_joining(self) -> nx.Graph:
         # Init - increasing numbers used as ids of newly created internal nodes, starting at 1
         number = iter(list(range(1, 1000)))
-        # nodes = self.labels
-        nodes = ['Cow', 'Pig', 'Horse', 'Mouse', 'Dog', 'Cat', 'Turkey', 'Civet', 'Human']
+        nodes = self.labels
         while self.size > 2:
             temp_nodes = []
 
@@ -88,20 +109,30 @@ class NeighborJoining:
         self.result[node] = []
         # edges from root node to remaining nodes
         # each edge has length of the distance between them divided by two
-        self.result[node].append((nodes[0], self.matrix[0][1]))
-        self.result[node].append((nodes[1], self.matrix[0][1]))
-        # get the newick representation of this NJ tree and return it
-        return self.result
+        self.result[node].append((nodes[0], self.matrix[0][1] / 2))
+        self.result[node].append((nodes[1], self.matrix[0][1] / 2))
+
+        return self.build_tree(self.result)
 
 
 if __name__ == "__main__":
-    D = read_file('examples/input/n9_1_additive.txt')
-    nj = NeighborJoining(D)
+    # files configuration
+    input_dir, output_dir = 'examples/input/', 'examples/output/'
+    files = ['n4_1.txt', 'n4_2.txt', 'n5_1.txt', 'n8_1.txt', 'n9_1_additive.txt', 'n9_2_nonadditive.txt']
 
-    newick = nj.neighbor_joining()
+    for f in files:
+        input_path, file = input_dir + f, check_filename(f)
 
-    for k, v in newick.items():
-        print(k, v)
+        # execute
+        nj = NeighborJoining(read_file(input_path))
+        output = nj.neighbor_joining()
+
+        # show output
+        weighted_adjacency_list(file, output)
+
+        # choose visualization
+        save_result(output, f'{output_dir}neighbor-joining/graph_{file}.png')
+        save_result(output, f'{output_dir}neighbor-joining/tree_{file}.png', 'tree')
 
 # Sources:
 # https://www.youtube.com/watch?v=Y0QWFFWQzds
