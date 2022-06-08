@@ -104,7 +104,7 @@ if __name__ == "__main__":
         weighted_adjacency_list(file, output)
 
         # choose visualization
-        save_result(output, f'{output_dir}additive phylogeny/graph_{file}.png')
+        # save_result(output, f'{output_dir}additive phylogeny/graph_{file}.png')
         save_result(output, f'{output_dir}additive phylogeny/tree_{file}.png', 'tree')
 
 # Sources:

@@ -101,8 +101,7 @@ class NeighborJoining:
             # update list of remaining nodes
             nodes = temp_nodes
         # only two nodes left
-        # normally we would add an edge connecting those two remaining nodes (unrooted tree)
-        # but since we want a rooted tree, we are adding a root node between them
+        # we want a rooted tree, so we are adding a root node between them
         # id of the root node
         node = str(next(number))
         # add root node to tree
@@ -131,7 +130,7 @@ if __name__ == "__main__":
         weighted_adjacency_list(file, output)
 
         # choose visualization
-        save_result(output, f'{output_dir}neighbor-joining/graph_{file}.png')
+        # save_result(output, f'{output_dir}neighbor-joining/graph_{file}.png')
         save_result(output, f'{output_dir}neighbor-joining/tree_{file}.png', 'tree')
 
 # Sources:
